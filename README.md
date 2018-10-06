@@ -32,12 +32,12 @@ Python3.7 Seq-view1.0 -i Example2.fa -r 45,50
 
 or
 
-Python3.7 Seq-view1.0 -i Example2.fa -a 70 -r 45,50
+Python3.7 Seq-view1.0 -i Example2.fa -a 70 -r 4,5
 
 
 You can also change the base number per line during the print when you print "aligned Seq":
 
-Python3.7 Seq-view1.0 -i Example2.fa -a 200 -r 45,50
+Python3.7 Seq-view1.0 -i Example2.fa -a 200 -r 4,5
 
 <p align="center">
   <img src="https://github.com/Karobben/Seq-vew/blob/master/Seq-5.png" width="600" title="hover text">
