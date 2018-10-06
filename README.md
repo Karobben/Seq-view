@@ -33,5 +33,5 @@ You can also change the base number per line during the print when you print "al
 Python3.7 Seq-view1.0 -i Example.fa -a 200 -r 45,50
 
 <p align="center">
-  <img src="https://github.com/Karobben/Seq-vew/blob/master/Seq-5.png" width="350" title="hover text">
+  <img src="https://github.com/Karobben/Seq-vew/blob/master/Seq-5.png" width="600" title="hover text">
 </p>
