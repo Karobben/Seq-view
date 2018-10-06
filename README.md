@@ -7,7 +7,7 @@ View your Sequence on the Terminal with color
 
 Normal view:
 
-Python3.7 Seq-view1.0 -i Example.fa
+Python3.7 Seq-view1.0 -i Example1.fa
 
 
 <p align="center">
@@ -17,7 +17,7 @@ Python3.7 Seq-view1.0 -i Example.fa
 
 Aligned view:
 
-Python3.7 Seq-view1.0 -i Example.fa -a 70
+Python3.7 Seq-view1.0 -i Example2.fa -a 70
 
 <p align="center">
   <img src="https://github.com/Karobben/Seq-vew/blob/master/Seq-3.png" width="350" title="hover text">
@@ -28,16 +28,16 @@ Extra:
 
 you can also print the Seq from 45 to 50:
 
-Python3.7 Seq-view1.0 -i Example.fa -r 45,50
+Python3.7 Seq-view1.0 -i Example2.fa -r 45,50
 
 or
 
-Python3.7 Seq-view1.0 -i Example.fa -a 70 -r 45,50
+Python3.7 Seq-view1.0 -i Example2.fa -a 70 -r 45,50
 
 
 You can also change the base number per line during the print when you print "aligned Seq":
 
-Python3.7 Seq-view1.0 -i Example.fa -a 200 -r 45,50
+Python3.7 Seq-view1.0 -i Example2.fa -a 200 -r 45,50
 
 <p align="center">
   <img src="https://github.com/Karobben/Seq-vew/blob/master/Seq-5.png" width="600" title="hover text">
