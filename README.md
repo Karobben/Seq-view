@@ -8,7 +8,7 @@ View your Sequence on the Terminal with colour
 Normal view:
 Python3.7 Seq-view1.0 -i Example.fa
 
-https://github.com/Karobben/Seq-vew/blob/master/Seq-1.png
+![alt text](https://github.com/Karobben/Seq-vew/blob/master/Seq-1.png)
 
 Aligned view:
 Python3.7 Seq-view1.0 -i Example.fa -a 70
