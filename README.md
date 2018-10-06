@@ -1,7 +1,7 @@
-# Seq-vew
-View your Sequence on the Terminal with colour
+# Seq-view
+View your Sequence on the Terminal with color
 
-### attatin: biopython is needed before you run the script
+### Attention: biopython is needed before you run the script
 
 ## Quick start
 
@@ -24,7 +24,7 @@ Python3.7 Seq-view1.0 -i Example.fa -a 70
 </p>
 
 
-Extral:
+Extra:
 
 you can also print the Seq from 45 to 50:
 
