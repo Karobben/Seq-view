@@ -55,7 +55,7 @@ There have 3 function for fastq view:
 Seq-view1.2 -i Example3.fastq  -f fastq -r 1,2000
 
 <p align="center">
-  <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/Seq-6.png" width="600" title="hover text">
+  <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/Seq-8.png" width="600" title="hover text">
 </p>
 
 
@@ -64,7 +64,7 @@ Seq-view1.2 -i Example3.fastq  -f fastq -r 1,2000
 Seq-view1.2 -i ERS011978_pass_1.fastq  -f fastq -r 1,2000  -a 200
 
 <p align="center">
-  <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/Seq-8.png" width="600" title="hover text">
+  <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/Seq-6.png" width="600" title="hover text">
 </p>
 
 3: Print the score of the Sequence only (So, you can view the score of the whole seq derectaly. and the score of the base which lower than 22 will be marked with the red background):
