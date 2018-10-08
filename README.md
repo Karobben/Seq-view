@@ -11,7 +11,7 @@ Python3.7 Seq-view1.0 -i Example1.fa
 
 
 <p align="center">
-  <img src="https://github.com/Karobben/Seq-vew/blob/master/Seq-1.png" width="350" title="hover text">
+  <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/Seq-1.png" width="350" title="hover text">
 </p>
 
 
@@ -20,7 +20,7 @@ Aligned view:
 Python3.7 Seq-view1.0 -i Example2.fa -a 70
 
 <p align="center">
-  <img src="https://github.com/Karobben/Seq-vew/blob/master/Seq-3.png" width="350" title="hover text">
+  <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/Seq-3.png" width="350" title="hover text">
 </p>
 
 
@@ -40,5 +40,5 @@ You can also change the base number per line during the print when you print "al
 Python3.7 Seq-view1.0 -i Example2.fa -a 200 -r 4,5
 
 <p align="center">
-  <img src="https://github.com/Karobben/Seq-vew/blob/master/Seq-5.png" width="600" title="hover text">
+  <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/Seq-5.png" width="600" title="hover text">
 </p>
