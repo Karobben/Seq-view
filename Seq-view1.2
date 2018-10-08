@@ -1,0 +1,192 @@
+#!/usr/local/bin/python3.7
+
+import argparse
+#命令行输入参数处理
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-i','-I','--input',help='The file you want to read')     #输入文件
+parser.add_argument('-r','-R','--range',default='1,10',help='"head, all, or range (exp: 1,50)", The range of Seq you want to reading. Exp: print 1-4 reads: 1,4. default = 1,10')     #输入文件
+parser.add_argument('-a','-A','--align',default='None',help='Align it or not. Exp: -a 70 --> show 70 base per line')
+parser.add_argument('-f','-F','--format',default='fasta',help='-f fasta/fastq.')
+parser.add_argument('-fq','-FQ','--fastqSpecial',default='Normal',help='-fq fasta/fastq.')
+
+#获取参数
+args = parser.parse_args()
+INPUT = args.input
+RANGE = args.range
+ALIGN = args.align
+FORMAT = args.format
+FqSpecial = args.fastqSpecial
+
+if RANGE == "all":
+    RANGE = '1,1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+elif RANGE == "head":
+    RANGE = '1,10'
+
+RANGE_1 = int(str(RANGE).split(',')[0])
+RANGE_2 = int(str(RANGE).split(',')[1])
+
+####
+from Bio import SeqIO
+
+Num = 0
+
+def print_fasta(seq_record):
+    print(">",seq_record.id,len(seq_record))
+    print(color_full(seq_record.seq))
+    #print(len(seq_record))
+
+def Fq_Score_sample(Score):
+    Score = Score.replace("[",'')
+    Score = Score.replace("]",'')
+    Sub_1= ''
+    for i in Score.split(','):
+        Sub_1 +=str(int(int(i)*8/60))+","
+    Sub_1 = Sub_1.replace("0","A")
+    Sub_1 = Sub_1.replace("1","B")
+    Sub_1 = Sub_1.replace("2","C")
+    Sub_1 = Sub_1.replace("3","D")
+    Sub_1 = Sub_1.replace("4","E")
+    Sub_1 = Sub_1.replace("5","F")
+    Sub_1 = Sub_1.replace("6","G")
+    Sub_1 = Sub_1.replace("7","H")
+    Sub_1 = Sub_1.replace("8","I")
+    #print(Sub_1)
+    A =" "
+    B =u"\u2581"
+    C =u"\u2582"
+    D =u"\u2583"
+    E =u"\u2584"
+    F =u"\u2585"
+    G =u"\u2586"
+    H =u"\u2587"
+    I =u"\u2588"
+    for i in Sub_1.split(',')[0:-1]:
+        #print(i,end='')
+        if i <= "C":
+            print("\x1b[3;45;6m%s\x1b[0m"%(locals()[i]),end='')
+        else:
+            print(locals()[i],end='')
+        #print("\x1b[3;45;6m%s\x1b[0m"%(i),end=',')
+
+def print_fastq(seq_record):
+    print()
+    print("@",seq_record.id,len(seq_record))
+    print(color_full(seq_record.seq))
+    Fq_Score_sample(color_full(seq_record.letter_annotations["phred_quality"]))
+
+def color_full(Seq):
+    Seq = str(Seq)
+    Seq = Seq.replace('A','\x1b[3;45;6mA\x1b[0m') #A
+    Seq = Seq.replace('C','\x1b[3;46;6mC\x1b[0m') #C
+    Seq = Seq.replace('G','\x1b[3;47;6mG\x1b[0m') #G
+    Seq = Seq.replace('T','\x1b[3;43;6mT\x1b[0m') #T
+    Seq = Seq.replace('U','\x1b[3;40;6mU\x1b[0m') #U
+    Seq = Seq.replace('V','\x1b[3;41;6mV\x1b[0m') #V
+    Seq = Seq.replace('L','\x1b[3;42;6mL\x1b[0m') #L
+    Seq = Seq.replace('I','\x1b[3;44;6mI\x1b[0m') #I
+    Seq = Seq.replace('F','\x1b[3;43;6mF\x1b[0m') #F
+    Seq = Seq.replace('W','\x1b[3;34;6mW\x1b[0m') #W
+    Seq = Seq.replace('Y','\x1b[3;35;6mY\x1b[0m') #Y
+    Seq = Seq.replace('D','\x1b[3;36;6mD\x1b[0m') #D
+    Seq = Seq.replace('N','\x1b[3;37;6mN\x1b[0m') #N
+    Seq = Seq.replace('E','\x1b[3;101;6mE\x1b[0m') #E
+    Seq = Seq.replace('K','\x1b[3;102;6mK\x1b[0m') #K
+    Seq = Seq.replace('Q','\x1b[3;103;6mQ\x1b[0m') #Q
+    Seq = Seq.replace('M','\x1b[3;104;6mM\x1b[0m') #M
+    Seq = Seq.replace('S','\x1b[3;105;6mS\x1b[0m') #S
+    Seq = Seq.replace('P','\x1b[3;106;6mP\x1b[0m') #P
+    Seq = Seq.replace('H','\x1b[3;107;6mH\x1b[0m') #H
+    Seq = Seq.replace('R','\x1b[3;97;6mR\x1b[0m') #R
+    return Seq
+
+def align_p_header(RANGE_1,RANGE_2,Num):
+    if RANGE_1 <= Num <= RANGE_2:
+        print("No.",Num," = >",seq_record.id)
+
+def tures_num(RANGE_1,RANGE_2,INPUT,FORMAT):
+    Num=0
+    longist = 0
+    for seq_record in SeqIO.parse(INPUT, FORMAT):
+        Num += 1
+        if Num > RANGE_2:
+            break
+        A=len(seq_record)
+        if RANGE_1 <= Num <= RANGE_2:
+            if int(A) > longist:
+                    longist = A
+    if longist/int(ALIGN) == int(longist/int(ALIGN)):
+        line_N = int(longist/int(ALIGN)) +1
+    else:
+        line_N = int(longist/int(ALIGN)) +2
+
+    return line_N
+
+#########################
+if FORMAT == 'fasta':
+    if ALIGN == 'None':   #### Normal Printting
+        for seq_record in SeqIO.parse(INPUT, FORMAT):
+            Num += 1
+            if RANGE_1 <= Num <= RANGE_2:
+                print_fasta(seq_record)
+    else:                   ### align printting
+        for seq_record in SeqIO.parse(INPUT, FORMAT):
+            Num += 1
+            if Num > RANGE_2:
+                break
+            align_p_header(RANGE_1,RANGE_2,Num)  ### printting the header first
+        #for turns_N in range(1,tures_num(INPUT)):
+        for turns_N in range(1,tures_num(RANGE_1,RANGE_2,INPUT,FORMAT)):
+            Num = 0
+            for seq_record in SeqIO.parse(INPUT, FORMAT):
+                Num += 1
+                if Num > RANGE_2:
+                    break
+                if RANGE_1 <= Num <= RANGE_2:
+                    #Seq_tmp = str(seq_record.seq)[0:70]
+                    Seq_tmp = str(seq_record.seq)[(turns_N-1)*int(ALIGN):int(ALIGN)*turns_N]
+                    print("No.",Num,"\t",color_full(Seq_tmp))
+                    #print("T=",turns_N)
+            print('')
+        #print(tures_num(RANGE_1,RANGE_2,INPUT))
+###########################
+
+#########################
+if FORMAT == 'fastq':
+    if FqSpecial =='Normal':
+        if ALIGN == 'None':   #### Normal Printting
+            for seq_record in SeqIO.parse(INPUT, FORMAT):
+                Num += 1
+                if Num > RANGE_2:
+                    break
+                if RANGE_1 <= Num <= RANGE_2:
+                    print_fastq(seq_record)
+        else:                   ### align printting
+            for turns_N in range(1,tures_num(RANGE_1,RANGE_2,INPUT,FORMAT)):
+                Num = 0
+                for seq_record in SeqIO.parse(INPUT, FORMAT):
+                    Num += 1
+                    if Num > RANGE_2:
+                        break
+                    if RANGE_1 <= Num <= RANGE_2:
+                        #Seq_tmp = str(seq_record.seq)[0:70]
+                        Seq_tmp = str(seq_record.seq)[(turns_N-1)*int(ALIGN):int(ALIGN)*turns_N]
+                        print(color_full(Seq_tmp))
+                        #print("T=",turns_N)
+                print('')
+            #print(tures_num(RANGE_1,RANGE_2,INPUT))
+    elif FqSpecial != 'Normal':
+            for seq_record in SeqIO.parse(INPUT, FORMAT):
+                Num += 1
+                if Num > RANGE_2:
+                    break
+                if RANGE_1 <= Num <= RANGE_2:
+                    Fq_Score_sample(color_full(seq_record.letter_annotations["phred_quality"]))
+                    print()
+
+
+###########################
+
+#print("NUMBER of Seq: ", Num)
+
+#print(RANGE)#, RANGE_1, RANGE_2)
