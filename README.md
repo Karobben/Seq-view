@@ -71,6 +71,20 @@ Seq-view1.2 -i Example3.fq  -f fastq -r 1,2000  -a 200
 
 Seq-view1.2 -i Example3.fq  -f fastq -r 1,2000  -fq s
 
+
 <p align="center">
   <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/Seq-7.png" width="600" title="hover text">
 </p>
+
+
+Now, with Seq-view1.3, we have a better way to view the Seq with aligned with:
+
+Seq-view1.3 -i Example3.fq  -f fastq -r 1,2000  -a 200
+
+It will show like:
+<p align="center">
+  <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/image.png" width="600" title="hover text">
+</p>
+
+If you still want the colorful output, you can add a -c C like that:
+Seq-view1.3 -i Example3.fq  -f fastq -r 1,2000  -a 200 -c C
