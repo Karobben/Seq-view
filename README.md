@@ -1,7 +1,7 @@
 # Seq-view
 View your Sequence on the Terminal with color
 
-### Attention: biopython is needed before you run the script
+### Attention: biopython is prerequisite before you run the script
 
 ## Quick start
 
