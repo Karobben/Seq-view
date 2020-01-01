@@ -3,11 +3,20 @@ Visualizing your Sequences on the Terminal with color
 
 ### Attention: biopython is prerequisite before you run this script
 
-## Quick start
+<a href="quickStart">1. Quick Start</a>
+
+<a href="Aligned1">2. Aligned fasta</a>
+
+<a href="quickStart">3. Fastq</a>
+
+
+
+
+## <a id="quickStart">Quick start</a>
 
 Normal view:
 ```
-Python3.7 Seq-view1.0 -i Example1.fa
+Python3.7 Seq-view1.3 -i Example1.fa
 ```
 
 <p align="center">
@@ -15,14 +24,25 @@ Python3.7 Seq-view1.0 -i Example1.fa
 </p>
 
 
-Aligned view:
+## Update
+This script can automatically distinguish the fasta and fastq file by simply using the command above. And when all sequences in a fasta file share equal number of length, it can add '-a' automatically.
+
+
+
+## <a id="Aligned1">Aligned fasta</a>:
 ```
-Python3.7 Seq-view1.0 -i Example2.fa -a 70
+Python3.7 Seq-view1.3 -i Example2.fa
 ```
 
+It will show like:
 <p align="center">
-  <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/Seq-3.png" width="350" title="hover text">
+  <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/image.png" width="600" title="hover text">
 </p>
+
+If you still want the colorful output, you can add a -c C like that:
+```
+Seq-view1.3 -i Example3.fq  -f fastq -r 1,2000  -a 200 -c C
+```
 
 
 Extra:
@@ -30,15 +50,15 @@ Extra:
 you can also print the Seq from 45 to 50:
 
 ```
-Python3.7 Seq-view1.0 -i Example2.fa -r 45,50
+Python3.7 Seq-view1.3 -i Example2.fa -r 45,50
 #or
-Python3.7 Seq-view1.0 -i Example2.fa -a 70 -r 4,5
+Python3.7 Seq-view1.3 -i Example2.fa  -r 4,5
 ```
 
 You can also change the base number per line during the print when you print "aligned Seq":
 
 ```
-Python3.7 Seq-view1.0 -i Example2.fa -a 200 -r 4,5
+Python3.7 Seq-view1.3 -i Example2.fa -a 200 -r 4,5
 ```
 
 
@@ -47,7 +67,7 @@ Python3.7 Seq-view1.0 -i Example2.fa -a 200 -r 4,5
   <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/Seq-5.png" width="600" title="hover text">
 </p>
 
-# For fastq visulization
+# <a id="fastq">For fastq visulization</a>
 
 There have 3 functions for the fastq view:
 
@@ -82,17 +102,4 @@ Seq-view1.2 -i Example3.fq  -f fastq -r 1,2000  -fq s
 </p>
 
 
-Now, with Seq-view1.3, we have a better way to view the Seq with aligned with:
 
-```
-Seq-view1.3 -i Example3.fq  -f fastq -r 1,2000  -a 200
-```
-It will show like:
-<p align="center">
-  <img src="https://github.com/Karobben/Seq-vew/blob/master/Examples/image.png" width="600" title="hover text">
-</p>
-
-If you still want the colorful output, you can add a -c C like that:
-```
-Seq-view1.3 -i Example3.fq  -f fastq -r 1,2000  -a 200 -c C
-```
