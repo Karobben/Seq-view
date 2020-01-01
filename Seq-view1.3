@@ -1,13 +1,15 @@
 #!/usr/local/bin/python3.7
 
-import argparse
+import argparse, os
+import pandas as pd
+
 #命令行输入参数处理
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i','-I','--input',help='The file you want to read')     #输入文件
 parser.add_argument('-r','-R','--range',default='1,10',help='"head, all, or range (exp: 1,50)", The range of Seq you want to reading. Exp: print 1-4 reads: 1,4. default = 1,10')     #输入文件
 parser.add_argument('-a','-A','--align',default='None',help='Align it or not. Exp: -a 70 --> show 70 base per line')
-parser.add_argument('-f','-F','--format',default='fasta',help='-f fasta/fastq.')
+parser.add_argument('-f','-F','--format',default='None',help='-f fasta/fastq.')
 parser.add_argument('-fq','-FQ','--fastqSpecial',default='Normal',help='-fq fasta/fastq.')
 parser.add_argument('-c','-C','--color',default='N',help='-c C/N.')
 #获取参数
@@ -29,6 +31,34 @@ RANGE_2 = int(str(RANGE).split(',')[1])
 
 ####
 from Bio import SeqIO
+
+def Formate_fig(INPUT,format):
+    '''
+    Format figure out
+    '''
+    if format == "None":
+        if int(os.popen('head '+INPUT+'|grep "^@" |wc -l').read().strip()) != 0:
+            print('fastq')
+            format = 'fastq'
+        else:
+            print('make sure it is fasta format.')
+            format = 'fasta'
+    return format
+
+def Align_fig(INPUT,FORMAT,ALIGN):
+    '''
+    This function is based on the length of eache Seqs
+    It Will give a "Yes" only if all sequences' lengths are equal
+    '''
+    Seq = []
+    if ALIGN == 'None' and FORMAT == 'fasta':
+        for seq_record in SeqIO.parse(INPUT, FORMAT):
+            Seq += [len(seq_record.seq)]
+    Num_seq = len(list(set(Seq)))
+    print(Num_seq)
+    if int(Num_seq) == 1:
+        ALIGN = os.get_terminal_size()[0] - 10
+    return ALIGN
 
 Num = 0
 
@@ -123,9 +153,6 @@ def tures_num(RANGE_1,RANGE_2,INPUT,FORMAT):
 
     return line_N
 
-import pandas as pd
-import os
-
 def Trinity(INPUT):
 
     B= pd.read_table(INPUT, header=None)
@@ -137,6 +164,14 @@ def Trinity(INPUT):
 
     B.to_csv("tmp.fq", index=None,header=None,quotechar=" ")
     os.system("sed -i 's/ //g' tmp.fq")
+
+#########################
+#pre-prting
+#Format figure
+FORMAT = Formate_fig(INPUT,FORMAT)
+#AAlignment figure
+ALIGN = Align_fig(INPUT,FORMAT,ALIGN)
+#########################
 
 #########################
 if FORMAT == 'fasta':
@@ -181,7 +216,6 @@ if FORMAT == 'fasta':
             print('')
         #print(tures_num(RANGE_1,RANGE_2,INPUT))
 ###########################
-
 #########################
 if FORMAT == 'fastq':
     if FqSpecial =='Normal':
@@ -193,6 +227,7 @@ if FORMAT == 'fastq':
                 if RANGE_1 <= Num <= RANGE_2:
                     print_fastq(seq_record)
         else:                   ### align printting
+            ALIGN = os.get_terminal_size()[0]
             for turns_N in range(1,tures_num(RANGE_1,RANGE_2,INPUT,FORMAT)):
                 Num = 0
                 for seq_record in SeqIO.parse(INPUT, FORMAT):
@@ -215,9 +250,4 @@ if FORMAT == 'fastq':
                     Fq_Score_sample(color_full(seq_record.letter_annotations["phred_quality"]))
                     print()
 
-
-###########################
-
-#print("NUMBER of Seq: ", Num)
-
-#print(RANGE)#, RANGE_1, RANGE_2)
+print(FORMAT)
