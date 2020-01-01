@@ -5,9 +5,9 @@ Visualizing your Sequences on the Terminal with color
 
 <a href="#quickStart">1. Quick Start</a>
 
-<a href="#Aligned1">2. Aligned fasta</a>
+<a href="#Aligned">2. Aligned fasta</a>
 
-<a href="#quickStart">3. Fastq</a>
+<a href="#fastq">3. Fastq</a>
 
 
 
@@ -29,7 +29,7 @@ This script can automatically distinguish the fasta and fastq file by simply usi
 
 
 
-## <a id="Aligned1">Aligned fasta</a>:
+## <a id="Aligned">Aligned fasta</a>:
 ```
 Python3.7 Seq-view1.3 -i Example2.fa
 ```
