@@ -3,11 +3,11 @@ Visualizing your Sequences on the Terminal with color
 
 ### Attention: biopython is prerequisite before you run this script
 
-<a href="quickStart">1. Quick Start</a>
+<a href="#quickStart">1. Quick Start</a>
 
-<a href="Aligned1">2. Aligned fasta</a>
+<a href="#Aligned1">2. Aligned fasta</a>
 
-<a href="quickStart">3. Fastq</a>
+<a href="#quickStart">3. Fastq</a>
 
 
 
