@@ -200,7 +200,8 @@ if FORMAT == 'fasta':
                     Seq_L2 = list(Seq_tmp)
                     for i in range(len(Seq_L1)):
                         if Seq_L1[i] == Seq_L2[i]:
-                            Seq_L2[i] = "*"
+                            #Seq_L2[i] = "*"
+                            AAAAAAA =1
                         elif Seq_L1[i] != Seq_L2[i] and Seq_L2[i] != "-":
                             Seq_L2[i] = '\x1b[3;45;6m'+Seq_L2[i]+'\x1b[0m'
                     Seq_tmp = "".join(Seq_L2)
