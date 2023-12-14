@@ -11,7 +11,8 @@ parser.add_argument('-r','-R','--range',default='1,10',help='"head, all, or rang
 parser.add_argument('-a','-A','--align',default='None',help='Align it or not. Exp: -a 70 --> show 70 base per line')
 parser.add_argument('-f','-F','--format',default='None',help='-f fasta/fastq.')
 parser.add_argument('-fq','-FQ','--fastqSpecial',default='Normal',help='-fq fasta/fastq.')
-parser.add_argument('-c','-C','--color',default='N',help='-c C/N.')
+parser.add_argument('-c','-C','--color',default=False, nargs = "?",help='-c')
+parser.add_argument('-s','-S','--start',default=False, nargs = "?",help='-c')
 #获取参数
 args = parser.parse_args()
 INPUT = args.input
@@ -20,6 +21,7 @@ ALIGN = args.align
 FORMAT = args.format
 FqSpecial = args.fastqSpecial
 Color_args = args.color
+Starts = args.start
 
 if RANGE == "all":
     RANGE = '1,1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'  #哈哈哈哈哈哈哈没错我就是来搞笑的哈哈哈哈
@@ -31,6 +33,31 @@ RANGE_2 = int(str(RANGE).split(',')[1])
 
 ####
 from Bio import SeqIO
+
+
+Color_table = {
+    'A':'\033[3;45mA\033[0m', #A
+    'C':'\033[3;46mC\033[0m', #C
+    'G':'\033[3;47mG\033[0m', #G
+    'T':'\033[3;43mT\033[0m', #T
+    'U':'\033[3;40mU\033[0m', #U
+    'V':'\033[3;41mV\033[0m', #V
+    'L':'\033[3;42mL\033[0m', #L
+    'I':'\033[3;44mI\033[0m', #I
+    'F':'\033[3;43mF\033[0m', #F
+    'W':'\033[3;34mW\033[0m', #W
+    'Y':'\033[3;35mY\033[0m', #Y
+    'D':'\033[3;36mD\033[0m', #D
+    'N':'\033[3;37mN\033[0m', #N
+    'E':'\033[3;101mE\033[0m', #E
+    'K':'\033[3;102mK\033[0m', #K
+    'Q':'\033[3;103mQ\033[0m', #Q
+    'M':'\033[3;104mM\033[0m', #M
+    'S':'\033[3;105mS\033[0m', #S
+    'P':'\033[3;106mP\033[0m', #P
+    'H':'\033[3;107mH\033[0m', #H
+    '-':'-', #H
+    'R':'\033[3;97mR\033[0m'} #R
 
 def Formate_fig(INPUT,format):
     '''
@@ -95,10 +122,10 @@ def Fq_Score_sample(Score):
     for i in Sub_1.split(',')[0:-1]:
         #print(i,end='')
         if i <= "C":
-            print("\x1b[3;45;6m%s\x1b[0m"%(locals()[i]),end='')
+            print("\033[3;45;6m%s\033[0m"%(locals()[i]),end='')
         else:
             print(locals()[i],end='')
-        #print("\x1b[3;45;6m%s\x1b[0m"%(i),end=',')
+        #print("\033[3;45;6m%s\033[0m"%(i),end=',')
 
 def print_fastq(seq_record):
     print()
@@ -106,30 +133,10 @@ def print_fastq(seq_record):
     print(color_full(seq_record.seq))
     Fq_Score_sample(color_full(seq_record.letter_annotations["phred_quality"]))
 
-def color_full(Seq):
-    Seq = str(Seq)
-    Seq = Seq.replace('A','\x1b[3;45;6mA\x1b[0m') #A
-    Seq = Seq.replace('C','\x1b[3;46;6mC\x1b[0m') #C
-    Seq = Seq.replace('G','\x1b[3;47;6mG\x1b[0m') #G
-    Seq = Seq.replace('T','\x1b[3;43;6mT\x1b[0m') #T
-    Seq = Seq.replace('U','\x1b[3;40;6mU\x1b[0m') #U
-    Seq = Seq.replace('V','\x1b[3;41;6mV\x1b[0m') #V
-    Seq = Seq.replace('L','\x1b[3;42;6mL\x1b[0m') #L
-    Seq = Seq.replace('I','\x1b[3;44;6mI\x1b[0m') #I
-    Seq = Seq.replace('F','\x1b[3;43;6mF\x1b[0m') #F
-    Seq = Seq.replace('W','\x1b[3;34;6mW\x1b[0m') #W
-    Seq = Seq.replace('Y','\x1b[3;35;6mY\x1b[0m') #Y
-    Seq = Seq.replace('D','\x1b[3;36;6mD\x1b[0m') #D
-    Seq = Seq.replace('N','\x1b[3;37;6mN\x1b[0m') #N
-    Seq = Seq.replace('E','\x1b[3;101;6mE\x1b[0m') #E
-    Seq = Seq.replace('K','\x1b[3;102;6mK\x1b[0m') #K
-    Seq = Seq.replace('Q','\x1b[3;103;6mQ\x1b[0m') #Q
-    Seq = Seq.replace('M','\x1b[3;104;6mM\x1b[0m') #M
-    Seq = Seq.replace('S','\x1b[3;105;6mS\x1b[0m') #S
-    Seq = Seq.replace('P','\x1b[3;106;6mP\x1b[0m') #P
-    Seq = Seq.replace('H','\x1b[3;107;6mH\x1b[0m') #H
-    Seq = Seq.replace('R','\x1b[3;97;6mR\x1b[0m') #R
-    return Seq
+def color_full(Seq, Color_table= Color_table):
+    #print( [i for i in Seq])
+    #print( "".join([Color_table[i] for i in Seq]))
+    return "".join([Color_table[i] for i in Seq])
 
 def align_p_header(RANGE_1,RANGE_2,Num):
     if RANGE_1 <= Num <= RANGE_2:
@@ -198,19 +205,24 @@ if FORMAT == 'fasta':
                     #Seq_tmp = str(seq_record.seq)[0:70]
                     Seq_tmp = str(seq_record.seq)[(turns_N-1)*int(ALIGN):int(ALIGN)*turns_N]
                     Seq_L2 = list(Seq_tmp)
-                    for i in range(len(Seq_L1)):
-                        if Seq_L1[i] == Seq_L2[i]:
-                            #Seq_L2[i] = "*"
-                            AAAAAAA =1
-                        elif Seq_L1[i] != Seq_L2[i] and Seq_L2[i] != "-":
-                            Seq_L2[i] = '\x1b[3;45;6m'+Seq_L2[i]+'\x1b[0m'
-                    Seq_tmp = "".join(Seq_L2)
-                    if Color_args != "N":
+                    if Color_args != False:
+                        #print(Seq_tmp)
                         Seq_p = "No."+str(Num)+"\t"+color_full(Seq_tmp)
                     else:
+                        for i in range(len(Seq_L1)):
+                            #if Seq_L1[i] == Seq_L2[i]:
+                                #Seq_L2[i] = "*"
+                            #    AAAAAAA =1
+                            if Seq_L1[i] != Seq_L2[i] and Seq_L2[i] != "-":
+                                Seq_L2[i] = '\033[41m'+Seq_L2[i]+'\033[0m'
+                            if Starts != False:
+                                if Seq_L1[i] == Seq_L2[i] and Seq_L2[i] != "-":
+                                    Seq_L2[i] = "*"
+
+                        Seq_tmp = "".join(Seq_L2)
                         Seq_p = "No."+str(Num)+"\t"+Seq_tmp#color_full(Seq_tmp)
                     print(Seq_p)
-                    if Num == 1:
+                    if Num == RANGE_1:
                         Seq_L1= list(Seq_tmp)
                 #print(Num,Seq_L2)
                     #print("T=",turns_N)
