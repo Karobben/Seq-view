@@ -56,7 +56,8 @@ Color_table = {
     'S':'\033[3;105mS\033[0m', #S
     'P':'\033[3;106mP\033[0m', #P
     'H':'\033[3;107mH\033[0m', #H
-    '-':'-', #H
+    '-':'-', #-
+    '*':'*', #*
     'R':'\033[3;97mR\033[0m'} #R
 
 def Formate_fig(INPUT,format):
@@ -205,19 +206,21 @@ if FORMAT == 'fasta':
                     #Seq_tmp = str(seq_record.seq)[0:70]
                     Seq_tmp = str(seq_record.seq)[(turns_N-1)*int(ALIGN):int(ALIGN)*turns_N]
                     Seq_L2 = list(Seq_tmp)
+                    for i in range(len(Seq_L1)):
+                        if Starts != False:
+                            if Seq_L1[i] == Seq_L2[i] and Seq_L2[i] != "-":
+                                Seq_L2[i] = "*"
+
                     if Color_args != False:
                         #print(Seq_tmp)
-                        Seq_p = "No."+str(Num)+"\t"+color_full(Seq_tmp)
+                        Seq_p = "No."+str(Num)+"\t"+color_full(Seq_L2)
                     else:
                         for i in range(len(Seq_L1)):
                             #if Seq_L1[i] == Seq_L2[i]:
                                 #Seq_L2[i] = "*"
                             #    AAAAAAA =1
-                            if Seq_L1[i] != Seq_L2[i] and Seq_L2[i] != "-":
+                            if Seq_L1[i] != Seq_L2[i] and Seq_L2[i] not in ['-', '*']:
                                 Seq_L2[i] = '\033[41m'+Seq_L2[i]+'\033[0m'
-                            if Starts != False:
-                                if Seq_L1[i] == Seq_L2[i] and Seq_L2[i] != "-":
-                                    Seq_L2[i] = "*"
 
                         Seq_tmp = "".join(Seq_L2)
                         Seq_p = "No."+str(Num)+"\t"+Seq_tmp#color_full(Seq_tmp)
